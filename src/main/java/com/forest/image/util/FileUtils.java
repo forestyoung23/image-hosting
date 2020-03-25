@@ -9,7 +9,7 @@ import java.io.ByteArrayInputStream;
 /**
  * 文件上传工具类
  *
- * @author dongyang
+ * @author Forest
  * @date 2020年03月26日 00:13
  */
 public class FileUtils {
@@ -23,7 +23,7 @@ public class FileUtils {
      *
      * @param
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/3/26 12:15 上午
      */
     public static void upload() {
@@ -55,7 +55,7 @@ public class FileUtils {
      *
      * @param
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/3/26 12:15 上午
      */
     public void query() {
@@ -67,7 +67,7 @@ public class FileUtils {
      *
      * @param
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/3/26 12:15 上午
      */
     public void remove() {
