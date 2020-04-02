@@ -1,6 +1,7 @@
 package com.forest.image.service;
 
-import com.forest.image.dto.FileDTO;
+import com.forest.image.base.ResultData;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件服务
@@ -8,7 +9,7 @@ import com.forest.image.dto.FileDTO;
  * @author Forest
  * @date 2020年03月21日 04:38
  */
-public interface CommonFileService {
+public interface OSSFileService {
     /**
      * 文件上传
      *
@@ -17,5 +18,5 @@ public interface CommonFileService {
      * @author Forest
      * @date 2020/3/21 4:51 上午
      */
-    Object upload(FileDTO file);
+    ResultData upload(MultipartFile file);
 }

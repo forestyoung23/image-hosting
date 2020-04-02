@@ -2,9 +2,9 @@ package com.forest.image.dto;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
+ * 数据库文件实体
+ *
  * @author Forest
  * @date 2020年03月21日 04:48
  */
@@ -35,9 +35,4 @@ public class FileDTO {
      * 文件url
      */
     private String fileUrl;
-
-    /**
-     * 创建人
-     */
-    private String creator;
 }
