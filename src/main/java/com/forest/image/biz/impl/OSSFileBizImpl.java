@@ -1,25 +1,27 @@
 package com.forest.image.biz.impl;
 
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.common.utils.IOUtils;
 import com.forest.image.biz.OSSFileBiz;
-import com.forest.image.dto.OSSFileDTO;
+import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.mapper.CommonFileMapper;
+import com.forest.image.model.CommonFileModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 /**
- * @author dongyang
+ * @author Forest
  * @date 2020年04月02日 16:31
  */
 @Component
+@Transactional(rollbackFor = Exception.class)
 public class OSSFileBizImpl implements OSSFileBiz {
+
     @Autowired
     private CommonFileMapper mapper;
 
@@ -29,39 +31,50 @@ public class OSSFileBizImpl implements OSSFileBiz {
     @Value("${oss.bucket_name}")
     private String bucketName;
 
+    @Value("${oss.domain_name}")
+    private String ossDomainName;
+
     /**
      * 文件上传
      *
      * @param file
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/4/2 4:42 下午
      */
     @Override
-    public void upload(MultipartFile file) throws Exception {
-        // 转换为OSS文件实体
-        OSSFileDTO dto = convertOSSFileDTO(file);
-        // 1.上传文件到OSS
-        upload2OSS(dto);
-        // 2.保存文件信息到数据库
-        save2DB();
+    public void upload(OriginalFileDTO file) throws Exception {
+        // 1.使用UUID生成唯一文件名，便于查询使用
+        StringBuilder sb = new StringBuilder();
+        String fileId = sb.append(UUID.randomUUID().toString().replaceAll("-", "")).append(getFileExtension(file.getFileName())).toString();
+        // 2.上传文件到OSS
+        upload2OSS(file.getFileBytes(), fileId);
+        // 3.获取文件对应数据库实体
+        CommonFileModel fileModel = convertCommonFileModel(file, fileId);
+        // 4.保存文件信息到数据库
+        save2DB(fileModel);
+    }
+
+    private void save2DB(CommonFileModel fileModel) {
+        mapper.insert(fileModel);
     }
 
     /**
-     * file转换为OSS文件实体
+     * 转换为数据库实体
      *
      * @param file
      * @return
-     * @author dongyang
-     * @date 2020/4/2 4:48 下午
+     * @author Forest
+     * @date 2020/4/3 11:03 上午
      */
-    private OSSFileDTO convertOSSFileDTO(MultipartFile file) throws IOException {
-        OSSFileDTO dto = new OSSFileDTO();
-        StringBuilder sb = new StringBuilder();
-        // 使用UUID生成唯一的文件名，便于查询使用
-        dto.setFileName(sb.append(UUID.randomUUID().toString().replaceAll("-", "")).append(".").append(getFileExtension(file.getOriginalFilename())).toString());
-        dto.setFileBytes(file.getBytes());
-        return dto;
+    private CommonFileModel convertCommonFileModel(OriginalFileDTO file, String fileId) {
+        CommonFileModel model = new CommonFileModel();
+        model.setFileId(fileId);
+        model.setFileName(file.getFileName());
+        model.setFileType(file.getFileType());
+        model.setFileUrl(ossDomainName + fileId);
+        model.setCreateTime(new Date());
+        return model;
     }
 
     /**
@@ -69,24 +82,23 @@ public class OSSFileBizImpl implements OSSFileBiz {
      *
      * @param fileName
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/4/2 5:01 下午
      */
     private String getFileExtension(String fileName) {
-        return fileName.substring(fileName.indexOf(".") + 1);
+        return fileName.substring(fileName.indexOf("."));
 
     }
 
     /**
      * 上传文件到OSS
      *
-     * @param dto
+     * @param fileBytes,fileId
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/4/2 4:45 下午
      */
-    private void upload2OSS(OSSFileDTO dto) {
-        ossClient.putObject(bucketName, dto.getFileName(), new ByteArrayInputStream(dto.getFileBytes()));
-        IOUtils.checkFile()
+    private void upload2OSS(byte[] fileBytes, String fileId) {
+        ossClient.putObject(bucketName, fileId, new ByteArrayInputStream(fileBytes));
     }
 }

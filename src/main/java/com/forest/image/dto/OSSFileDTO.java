@@ -5,15 +5,15 @@ import lombok.Data;
 /**
  * OSS文件实体
  *
- * @author dongyang
+ * @author Forest
  * @date 2020年04月02日 16:45
  */
 @Data
 public class OSSFileDTO {
     /**
-     * 文件Name
+     * 文件id
      */
-    private String fileName;
+    private String fileId;
 
     /**
      * 文件字节数组

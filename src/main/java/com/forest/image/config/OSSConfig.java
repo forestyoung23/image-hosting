@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * OSS服务配置
  *
- * @author dongyang
+ * @author Forest
  * @date 2020年04月02日 15:57
  */
 @Configuration

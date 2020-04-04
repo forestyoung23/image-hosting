@@ -1,9 +1,9 @@
 package com.forest.image.biz;
 
-import org.springframework.web.multipart.MultipartFile;
+import com.forest.image.dto.OriginalFileDTO;
 
 /**
- * @author dongyang
+ * @author Forest
  * @date 2020年04月02日 16:31
  */
 public interface OSSFileBiz {
@@ -12,8 +12,8 @@ public interface OSSFileBiz {
      *
      * @param file
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/4/2 4:41 下午
      */
-    void upload(MultipartFile file) throws Exception;
+    void upload(OriginalFileDTO file) throws Exception;
 }
