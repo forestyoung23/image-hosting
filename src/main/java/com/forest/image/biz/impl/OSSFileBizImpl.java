@@ -1,10 +1,15 @@
 package com.forest.image.biz.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.model.DeleteObjectsRequest;
+import com.aliyun.oss.model.DeleteObjectsResult;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.forest.image.biz.OSSFileBiz;
 import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.mapper.CommonFileMapper;
 import com.forest.image.model.CommonFileModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,12 +17,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
+ * OSS文件处理BizImpl
+ *
  * @author Forest
  * @date 2020年04月02日 16:31
  */
+@Slf4j
 @Component
 @Transactional(rollbackFor = Exception.class)
 public class OSSFileBizImpl implements OSSFileBiz {
@@ -55,6 +64,53 @@ public class OSSFileBizImpl implements OSSFileBiz {
         save2DB(fileModel);
     }
 
+    /**
+     * 删除文件
+     *
+     * @param fileIds
+     * @return
+     * @author Forest
+     * @date 2020/4/4 6:44 下午
+     */
+    @Override
+    public void delete(List<String> fileIds) {
+        // 1.删除OSS上的文件
+        deleteFromOSS(fileIds);
+        // 2.删除数据库关联记录
+        deleteFromDB(fileIds);
+    }
+
+    /**
+     * 删除OSS文件
+     *
+     * @param fileIds
+     * @return
+     * @author Forest
+     * @date 2020/4/4 6:47 下午
+     */
+    private void deleteFromOSS(List<String> fileIds) {
+        DeleteObjectsResult result = ossClient.deleteObjects(new DeleteObjectsRequest(bucketName).withKeys(fileIds).withQuiet(true));
+        if (ObjectUtil.isNotEmpty(result.getDeletedObjects())) {
+            for (String fileName : result.getDeletedObjects()) {
+                log.warn("文件{}删除失败", fileName);
+            }
+        }
+    }
+
+    /**
+     * 删除数据库文件
+     *
+     * @param fileIds
+     * @return
+     * @author Forest
+     * @date 2020/4/4 6:47 下午
+     */
+    private void deleteFromDB(List<String> fileIds) {
+        QueryWrapper<CommonFileModel> wrapper = new QueryWrapper<>();
+        wrapper.in("file_id", fileIds);
+        mapper.delete(wrapper);
+    }
+
     private void save2DB(CommonFileModel fileModel) {
         mapper.insert(fileModel);
     }
@@ -87,7 +143,6 @@ public class OSSFileBizImpl implements OSSFileBiz {
      */
     private String getFileExtension(String fileName) {
         return fileName.substring(fileName.indexOf("."));
-
     }
 
     /**

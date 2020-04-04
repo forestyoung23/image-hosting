@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 文件服务实现
@@ -44,6 +46,23 @@ public class OSSFileServiceImpl implements OSSFileService {
             log.error("上传文件失败，错误信息：{}", e.getMessage());
             return new ResultData(false, "1001", "系统内部发生错误");
         }
+        return new ResultData(true);
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param map
+     * @return
+     * @author Forest
+     * @date 2020/4/4 6:41 下午
+     */
+    @Override
+    public ResultData delete(Map map) {
+        if (ObjectUtil.isEmpty(map) || ObjectUtil.isEmpty((List<String>) map.get("fileIds"))) {
+            return new ResultData(false, "1001", "缺少必要请求参数");
+        }
+        ossFileBiz.delete((List<String>) map.get("fileIds"));
         return new ResultData(true);
     }
 

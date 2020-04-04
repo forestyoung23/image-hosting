@@ -3,6 +3,8 @@ package com.forest.image.service;
 import com.forest.image.base.ResultData;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 /**
  * 文件服务
  *
@@ -19,4 +21,14 @@ public interface OSSFileService {
      * @date 2020/3/21 4:51 上午
      */
     ResultData upload(MultipartFile file);
+
+    /**
+     * 删除文件
+     *
+     * @param map
+     * @return
+     * @author Forest
+     * @date 2020/4/4 6:39 下午
+     */
+    ResultData delete(Map map);
 }
