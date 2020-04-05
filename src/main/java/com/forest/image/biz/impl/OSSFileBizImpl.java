@@ -6,6 +6,7 @@ import com.aliyun.oss.model.DeleteObjectsRequest;
 import com.aliyun.oss.model.DeleteObjectsResult;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.forest.image.biz.OSSFileBiz;
+import com.forest.image.dto.FileLinkDTO;
 import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.mapper.CommonFileMapper;
 import com.forest.image.model.CommonFileModel;
@@ -44,6 +45,16 @@ public class OSSFileBizImpl implements OSSFileBiz {
     private String ossDomainName;
 
     /**
+     * Markdown格式
+     */
+    private static final String MARKDOWN = "![](%s)";
+
+    /**
+     * HTML格式
+     */
+    private static final String HTML = "<img src='%s'/>";
+
+    /**
      * 文件上传
      *
      * @param file
@@ -52,7 +63,7 @@ public class OSSFileBizImpl implements OSSFileBiz {
      * @date 2020/4/2 4:42 下午
      */
     @Override
-    public void upload(OriginalFileDTO file) throws Exception {
+    public FileLinkDTO upload(OriginalFileDTO file) throws Exception {
         // 1.使用UUID生成唯一文件名，便于查询使用
         StringBuilder sb = new StringBuilder();
         String fileId = sb.append(UUID.randomUUID().toString().replaceAll("-", "")).append(getFileExtension(file.getFileName())).toString();
@@ -62,6 +73,24 @@ public class OSSFileBizImpl implements OSSFileBiz {
         CommonFileModel fileModel = convertCommonFileModel(file, fileId);
         // 4.保存文件信息到数据库
         save2DB(fileModel);
+        // 5.返回文件地址链接
+        return getFileLink(fileModel.getFileUrl());
+    }
+
+    /**
+     * 获取文件地址链接
+     *
+     * @param fileUrl
+     * @return
+     * @author dongyang
+     * @date 2020/4/5 1:50 下午
+     */
+    private FileLinkDTO getFileLink(String fileUrl) {
+        FileLinkDTO dto = new FileLinkDTO();
+        dto.setMarkdown(String.format(MARKDOWN, fileUrl));
+        dto.setHtml(String.format(HTML, fileUrl));
+        dto.setUrl(fileUrl);
+        return dto;
     }
 
     /**

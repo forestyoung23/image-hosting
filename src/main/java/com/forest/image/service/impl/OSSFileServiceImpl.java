@@ -3,6 +3,7 @@ package com.forest.image.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.forest.image.base.ResultData;
 import com.forest.image.biz.OSSFileBiz;
+import com.forest.image.dto.FileLinkDTO;
 import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.service.OSSFileService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,13 +41,14 @@ public class OSSFileServiceImpl implements OSSFileService {
             log.warn("上传失败，文件为空！");
             return new ResultData(false, "1001", "请选择需要上传的文件");
         }
+        FileLinkDTO dto;
         try {
-            ossFileBiz.upload(convertOriginalFileDTO(file));
+            dto = ossFileBiz.upload(convertOriginalFileDTO(file));
         } catch (Exception e) {
             log.error("上传文件失败，错误信息：{}", e.getMessage());
             return new ResultData(false, "1001", "系统内部发生错误");
         }
-        return new ResultData(true);
+        return new ResultData(true, null, null, dto);
     }
 
     /**

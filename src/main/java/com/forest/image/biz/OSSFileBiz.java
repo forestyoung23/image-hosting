@@ -1,5 +1,6 @@
 package com.forest.image.biz;
 
+import com.forest.image.dto.FileLinkDTO;
 import com.forest.image.dto.OriginalFileDTO;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface OSSFileBiz {
      * @author Forest
      * @date 2020/4/2 4:41 下午
      */
-    void upload(OriginalFileDTO file) throws Exception;
+    FileLinkDTO upload(OriginalFileDTO file) throws Exception;
 
     /**
      * 删除文件
