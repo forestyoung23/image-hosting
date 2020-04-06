@@ -82,7 +82,7 @@ public class OSSFileBizImpl implements OSSFileBiz {
      *
      * @param fileUrl
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/4/5 1:50 下午
      */
     private FileLinkDTO getFileLink(String fileUrl) {
