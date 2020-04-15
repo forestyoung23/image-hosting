@@ -2,6 +2,7 @@ package com.forest.image.biz;
 
 import com.forest.image.dto.FileLinkDTO;
 import com.forest.image.dto.OriginalFileDTO;
+import com.forest.image.model.CommonFileModel;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface OSSFileBiz {
      * @date 2020/4/4 6:44 下午
      */
     void delete(List<String> fileIds);
+
+    List<CommonFileModel> query();
 }

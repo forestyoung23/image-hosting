@@ -109,6 +109,11 @@ public class OSSFileBizImpl implements OSSFileBiz {
         deleteFromDB(fileIds);
     }
 
+    @Override
+    public List<CommonFileModel> query() {
+        return mapper.selectList(new QueryWrapper<>());
+    }
+
     /**
      * 删除OSS文件
      *
