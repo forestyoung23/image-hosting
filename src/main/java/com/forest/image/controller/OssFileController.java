@@ -45,4 +45,9 @@ public class OssFileController {
     public ResultData delete(@RequestBody Map map) {
         return ossFileService.delete(map);
     }
+
+    @PostMapping("/query")
+    public ResultData query() {
+        return ossFileService.query();
+    }
 }

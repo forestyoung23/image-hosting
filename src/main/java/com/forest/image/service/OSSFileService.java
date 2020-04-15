@@ -31,4 +31,6 @@ public interface OSSFileService {
      * @date 2020/4/4 6:39 下午
      */
     ResultData delete(Map map);
+
+    ResultData query();
 }

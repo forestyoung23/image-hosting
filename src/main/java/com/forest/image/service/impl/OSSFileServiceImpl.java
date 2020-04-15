@@ -68,6 +68,11 @@ public class OSSFileServiceImpl implements OSSFileService {
         return new ResultData(true);
     }
 
+    @Override
+    public ResultData query() {
+        return new ResultData(true, null, null, ossFileBiz.query());
+    }
+
     /**
      * 转换文件实体
      *
