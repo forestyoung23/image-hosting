@@ -8,6 +8,12 @@ import lombok.Data;
  */
 @Data
 public class OriginalFileDTO {
+
+    /**
+     * 请求IP
+     */
+    private String requestIp;
+
     /**
      * 文件名
      */

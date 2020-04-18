@@ -15,12 +15,12 @@ public interface OSSFileService {
     /**
      * 文件上传
      *
-     * @param file
+     * @param file,requestIp
      * @return
      * @author Forest
      * @date 2020/3/21 4:51 上午
      */
-    ResultData upload(MultipartFile file);
+    ResultData upload(MultipartFile file, String requestIp);
 
     /**
      * 删除文件

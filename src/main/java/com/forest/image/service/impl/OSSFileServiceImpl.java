@@ -36,14 +36,14 @@ public class OSSFileServiceImpl implements OSSFileService {
      * @date 2020/3/21 4:52 上午
      */
     @Override
-    public ResultData upload(MultipartFile file) {
+    public ResultData upload(MultipartFile file, String requestIp) {
         if (ObjectUtil.isEmpty(file)) {
             log.warn("上传失败，文件为空！");
             return new ResultData(false, "1001", "请选择需要上传的文件");
         }
         FileLinkDTO dto;
         try {
-            dto = ossFileBiz.upload(convertOriginalFileDTO(file));
+            dto = ossFileBiz.upload(convertOriginalFileDTO(file, requestIp));
         } catch (Exception e) {
             log.error("上传文件失败，错误信息：{}", e.getMessage());
             return new ResultData(false, "1001", "系统内部发生错误");
@@ -81,13 +81,12 @@ public class OSSFileServiceImpl implements OSSFileService {
      * @author Forest
      * @date 2020/4/4 6:10 下午
      */
-    private OriginalFileDTO convertOriginalFileDTO(MultipartFile file) throws IOException {
+    private OriginalFileDTO convertOriginalFileDTO(MultipartFile file, String requestIp) throws IOException {
         OriginalFileDTO dto = new OriginalFileDTO();
+        dto.setRequestIp(requestIp);
         dto.setFileName(file.getOriginalFilename());
         dto.setFileType(file.getContentType());
         dto.setFileBytes(file.getBytes());
         return dto;
     }
-
-
 }

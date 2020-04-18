@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -23,14 +25,14 @@ public class OssFileController {
     /**
      * 文件上传
      *
-     * @param file
+     * @param request,file
      * @return
      * @author Forest
      * @date 2020/3/21 4:51 上午
      */
     @PostMapping("/upload")
-    public ResultData upload(@RequestParam MultipartFile file) {
-        return ossFileService.upload(file);
+    public ResultData upload(HttpServletRequest request, @RequestParam MultipartFile file) {
+        return ossFileService.upload(file, request.getRemoteAddr());
     }
 
     /**
@@ -49,5 +51,9 @@ public class OssFileController {
     @PostMapping("/query")
     public ResultData query() {
         return ossFileService.query();
+    }
+
+    public static void main(String[] args) {
+        System.err.println(new Date());
     }
 }

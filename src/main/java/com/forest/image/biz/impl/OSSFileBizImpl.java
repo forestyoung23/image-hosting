@@ -1,5 +1,6 @@
 package com.forest.image.biz.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.DeleteObjectsRequest;
@@ -121,6 +122,14 @@ public class OSSFileBizImpl implements OSSFileBiz {
         mapper.delete(wrapper);
     }
 
+    /**
+     * 保存文件信息到数据库
+     *
+     * @param fileModel
+     * @return
+     * @author Forest
+     * @date 2020/4/18 4:40 下午
+     */
     private void save2DB(CommonFileModel fileModel) {
         mapper.insert(fileModel);
     }
@@ -134,10 +143,9 @@ public class OSSFileBizImpl implements OSSFileBiz {
      * @date 2020/4/3 11:03 上午
      */
     private CommonFileModel convertCommonFileModel(OriginalFileDTO file, String fileId) {
-        CommonFileModel model = new CommonFileModel();
+        CommonFileModel model = BeanUtil.toBean(file, CommonFileModel.class);
         model.setFileId(fileId);
-        model.setFileName(file.getFileName());
-        model.setFileType(file.getFileType());
+        model.setIp(file.getRequestIp());
         model.setFileUrl(ossDomainName + fileId);
         model.setCreateTime(new Date());
         return model;
