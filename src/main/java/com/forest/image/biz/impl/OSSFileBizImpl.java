@@ -10,6 +10,7 @@ import com.forest.image.dto.FileLinkDTO;
 import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.mapper.CommonFileMapper;
 import com.forest.image.model.CommonFileModel;
+import com.forest.image.util.FileLinkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,16 +46,6 @@ public class OSSFileBizImpl implements OSSFileBiz {
     private String ossDomainName;
 
     /**
-     * Markdown格式
-     */
-    private static final String MARKDOWN = "![](%s)";
-
-    /**
-     * HTML格式
-     */
-    private static final String HTML = "<img src='%s'/>";
-
-    /**
      * 文件上传
      *
      * @param file
@@ -74,24 +65,9 @@ public class OSSFileBizImpl implements OSSFileBiz {
         // 4.保存文件信息到数据库
         save2DB(fileModel);
         // 5.返回文件地址链接
-        return getFileLink(fileModel.getFileUrl());
+        return FileLinkUtils.getFileLink(fileModel.getFileUrl());
     }
 
-    /**
-     * 获取文件地址链接
-     *
-     * @param fileUrl
-     * @return
-     * @author Forest
-     * @date 2020/4/5 1:50 下午
-     */
-    private FileLinkDTO getFileLink(String fileUrl) {
-        FileLinkDTO dto = new FileLinkDTO();
-        dto.setMarkdown(String.format(MARKDOWN, fileUrl));
-        dto.setHtml(String.format(HTML, fileUrl));
-        dto.setUrl(fileUrl);
-        return dto;
-    }
 
     /**
      * 删除文件
