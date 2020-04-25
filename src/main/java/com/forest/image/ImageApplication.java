@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan(basePackages = "com.forest.image.mapper")
 @SpringBootApplication
 public class ImageApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(ImageApplication.class, args);
     }
