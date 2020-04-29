@@ -1,19 +1,21 @@
 package com.forest.image.service.impl;
 
-import cn.hutool.core.util.ObjectUtil;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.forest.image.base.ResultData;
 import com.forest.image.biz.OSSFileBiz;
 import com.forest.image.dto.FileLinkDTO;
 import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.service.OSSFileService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import cn.hutool.core.util.ObjectUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 文件服务实现
@@ -24,6 +26,7 @@ import java.util.Map;
 @Slf4j
 @Service
 public class OSSFileServiceImpl implements OSSFileService {
+
     @Autowired
     private OSSFileBiz ossFileBiz;
 
