@@ -5,18 +5,14 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * 通用返回实体
+ *
  * @author Forest
  * @date 2020年04月02日 10:45
  */
 @Data
 public class ResultData<T> implements Serializable {
     private static final long serialVersionUID = -2575778567893676532L;
-
-    /**
-     * 无参构造方法
-     */
-    public ResultData() {
-    }
 
     public ResultData(Boolean succeed) {
         this.succeed = succeed;
