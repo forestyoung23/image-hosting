@@ -93,7 +93,7 @@ public class UserBizImpl implements UserBiz {
         QueryWrapper<UserModel> wrapper = new QueryWrapper<UserModel>().eq("user_name", user.getUserName());
         UserModel model = userMapper.selectOne(wrapper);
         if (ObjectUtil.isEmpty(model)) {
-            return ResultDataUtils.getErrorResult("2001", "用户名或密码错误");
+            return ResultDataUtils.getErrorResult("2001", "");
         }
         if (!checkPassword(user.getPassword(), model)) {
             return ResultDataUtils.getErrorResult("2001", "用户名或密码错误");

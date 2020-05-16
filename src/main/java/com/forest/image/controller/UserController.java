@@ -4,9 +4,9 @@ import com.forest.image.base.ResultData;
 import com.forest.image.dto.UserDTO;
 import com.forest.image.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 用户服务
@@ -29,7 +29,7 @@ public class UserController {
      * @author Forest
      * @date 2020/4/28 14:19
     */
-    @RequestMapping("/register")
+    @PostMapping("/register")
     public ResultData register(@RequestBody UserDTO user) {
         return userService.register(user);
     }
@@ -42,9 +42,17 @@ public class UserController {
      * @author Forest
      * @date 2020/4/28 18:17
     */
-    @RequestMapping("/login")
-    public ResultData login(@RequestBody UserDTO user) {
-        return userService.login(user);
+    @PostMapping("/login")
+    public ResultData login(HttpServletRequest request, @RequestBody UserDTO user) {
+        ResultData resultData = userService.login(user);
+        if (resultData.getSucceed()) {
+            request.getSession().setAttribute("isLogin", "y");
+        }
+        return resultData;
     }
 
+    @PostMapping("test")
+    public String test(@RequestParam String id) {
+        return id;
+    }
 }

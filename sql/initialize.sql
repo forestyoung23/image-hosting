@@ -26,7 +26,7 @@ CREATE TABLE `user`
     `email`       varchar(32)     NULL COMMENT '邮箱',
     `wechat`      varchar(32)     NULL COMMENT '微信号',
     `create_time` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `modify_time` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `modify_time` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   CHARACTER SET = utf8

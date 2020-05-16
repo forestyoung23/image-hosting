@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -51,9 +50,5 @@ public class OssFileController {
     @PostMapping("/query")
     public ResultData query() {
         return ossFileService.query();
-    }
-
-    public static void main(String[] args) {
-        System.err.println(new Date());
     }
 }
