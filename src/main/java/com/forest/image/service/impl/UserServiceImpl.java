@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         }
         // 校验用户名和密码格式
         ResultData resultData = checkUserNameAndPasswordPattern(user);
-        if (!resultData.getSucceed()) {
+        if (!resultData.isSucceed()) {
             return resultData;
         }
         // 检验用户名是否已注册
