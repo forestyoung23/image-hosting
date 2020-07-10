@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.forest.image.base.ResultData;
 import com.forest.image.biz.OSSFileBiz;
 import com.forest.image.dto.FileLinkDTO;
 import com.forest.image.dto.OriginalFileDTO;
+import com.forest.image.exception.ImageHostingException;
+import com.forest.image.model.CommonFileModel;
 import com.forest.image.service.OSSFileService;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -39,19 +40,19 @@ public class OSSFileServiceImpl implements OSSFileService {
      * @date 2020/3/21 4:52 上午
      */
     @Override
-    public ResultData upload(MultipartFile file, String requestIp) {
+    public FileLinkDTO upload(MultipartFile file, String requestIp) {
         if (ObjectUtil.isEmpty(file)) {
             log.warn("上传失败，文件为空！");
-            return new ResultData(false, "1001", "请选择需要上传的文件");
+            throw new ImageHostingException("1001", "请选择需要上传的文件");
         }
         FileLinkDTO dto;
         try {
             dto = ossFileBiz.upload(convertOriginalFileDTO(file, requestIp));
         } catch (Exception e) {
             log.error("上传文件失败，错误信息：{}", e.getMessage());
-            return new ResultData(false, "1001", "系统内部发生错误");
+            throw new ImageHostingException("1001", "系统内部发生错误");
         }
-        return new ResultData(true, null, null, dto);
+        return dto;
     }
 
     /**
@@ -63,17 +64,24 @@ public class OSSFileServiceImpl implements OSSFileService {
      * @date 2020/4/4 6:41 下午
      */
     @Override
-    public ResultData delete(Map map) {
-        if (ObjectUtil.isEmpty(map) || ObjectUtil.isEmpty((List<String>) map.get("fileIds"))) {
-            return new ResultData(false, "1001", "缺少必要请求参数");
+    public void delete(Map map) {
+        if (ObjectUtil.isEmpty(map) || ObjectUtil.isEmpty(map.get("fileIds"))) {
+            throw new ImageHostingException("1001", "缺少必要请求参数");
         }
         ossFileBiz.delete((List<String>) map.get("fileIds"));
-        return new ResultData(true);
     }
 
+    /**
+     * 文件查询
+     *
+     * @param
+     * @return
+     * @author Forest
+     * @date 2020/7/10 11:39
+     */
     @Override
-    public ResultData query() {
-        return new ResultData(true, null, null, ossFileBiz.query());
+    public List<CommonFileModel> query() {
+        return ossFileBiz.query();
     }
 
     /**

@@ -1,16 +1,18 @@
 package com.forest.image.service.impl;
 
-import cn.hutool.core.util.ObjectUtil;
+import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.forest.image.base.ResultData;
 import com.forest.image.biz.UserBiz;
 import com.forest.image.dto.UserDTO;
 import com.forest.image.service.UserService;
 import com.forest.image.util.ResultDataUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.regex.Pattern;
+import cn.hutool.core.util.ObjectUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 用户服务实现
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param user
      * @return
-     * @author dongyang
+     * @author Forest
      * @date 2020/4/29 19:18
     */
     public ResultData checkUserNameAndPasswordPattern(UserDTO user) {

@@ -1,7 +1,15 @@
 package com.forest.image.biz.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
+import java.io.ByteArrayInputStream;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.DeleteObjectsRequest;
 import com.aliyun.oss.model.DeleteObjectsResult;
@@ -12,16 +20,10 @@ import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.mapper.CommonFileMapper;
 import com.forest.image.model.CommonFileModel;
 import com.forest.image.util.FileLinkUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayInputStream;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * OSS文件处理BizImpl
@@ -86,6 +88,14 @@ public class OSSFileBizImpl implements OSSFileBiz {
         deleteFromDB(fileIds);
     }
 
+    /**
+     * 文件查询
+     *
+     * @param
+     * @return
+     * @author Forest
+     * @date 2020/7/10 11:39
+     */
     @Override
     public List<CommonFileModel> query() {
         return mapper.selectList(new QueryWrapper<>());

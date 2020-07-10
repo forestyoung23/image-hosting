@@ -1,10 +1,10 @@
 package com.forest.image.biz;
 
+import java.util.List;
+
 import com.forest.image.dto.FileLinkDTO;
 import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.model.CommonFileModel;
-
-import java.util.List;
 
 /**
  * OSS文件处理Biz
@@ -33,5 +33,13 @@ public interface OSSFileBiz {
      */
     void delete(List<String> fileIds);
 
+    /**
+     * 文件查询
+     *
+     * @param
+     * @return
+     * @author Forest
+     * @date 2020/7/10 11:39
+     */
     List<CommonFileModel> query();
 }

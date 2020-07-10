@@ -1,9 +1,12 @@
 package com.forest.image.service;
 
-import com.forest.image.base.ResultData;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
+import com.forest.image.dto.FileLinkDTO;
+import com.forest.image.model.CommonFileModel;
 
 /**
  * 文件服务
@@ -15,12 +18,13 @@ public interface OSSFileService {
     /**
      * 文件上传
      *
-     * @param file,requestIp
+     * @param file
+     * @param requestIp
      * @return
      * @author Forest
      * @date 2020/3/21 4:51 上午
      */
-    ResultData upload(MultipartFile file, String requestIp);
+    FileLinkDTO upload(MultipartFile file, String requestIp);
 
     /**
      * 删除文件
@@ -30,7 +34,15 @@ public interface OSSFileService {
      * @author Forest
      * @date 2020/4/4 6:39 下午
      */
-    ResultData delete(Map map);
+    void delete(Map map);
 
-    ResultData query();
+    /**
+     * 文件查询
+     *
+     * @param
+     * @return
+     * @author Forest
+     * @date 2020/7/10 11:39
+     */
+    List<CommonFileModel> query();
 }

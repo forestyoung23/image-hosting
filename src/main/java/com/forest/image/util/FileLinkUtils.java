@@ -9,7 +9,9 @@ import com.forest.image.dto.FileLinkDTO;
  * @date 2020年04月18日 16:03
  */
 public class FileLinkUtils {
+
     private FileLinkUtils(){}
+
     /**
      * Markdown格式
      */

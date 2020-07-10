@@ -1,13 +1,16 @@
 package com.forest.image.controller;
 
-import com.forest.image.base.ResultData;
-import com.forest.image.service.OSSFileService;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import com.forest.image.base.ResultData;
+import com.forest.image.service.OSSFileService;
+import com.forest.image.util.ResultDataUtils;
 
 /**
  * 文件服务前端控制器
@@ -31,7 +34,7 @@ public class OssFileController {
      */
     @PostMapping("/upload")
     public ResultData upload(HttpServletRequest request, @RequestParam MultipartFile file) {
-        return ossFileService.upload(file, request.getRemoteAddr());
+        return ResultDataUtils.getSuccessResult(ossFileService.upload(file, request.getRemoteAddr()));
     }
 
     /**
@@ -44,11 +47,20 @@ public class OssFileController {
      */
     @PostMapping("/delete")
     public ResultData delete(@RequestBody Map map) {
-        return ossFileService.delete(map);
+        ossFileService.delete(map);
+        return ResultDataUtils.getSuccessResult();
     }
 
+    /**
+     * 文件查询
+     * 
+     * @param 
+     * @return 
+     * @author Forest
+     * @date 2020/7/10 11:39
+     */
     @PostMapping("/query")
     public ResultData query() {
-        return ossFileService.query();
+        return ResultDataUtils.getSuccessResult(ossFileService.query());
     }
 }

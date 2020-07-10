@@ -1,6 +1,8 @@
 package com.forest.image.util;
 
 import com.forest.image.base.ResultData;
+import com.forest.image.exception.ImageHostingException;
+
 import lombok.Data;
 
 /**
@@ -27,5 +29,9 @@ public class ResultDataUtils {
 
     public static ResultData getErrorResult(String errorCode, String errorMsg) {
         return new ResultData(false, errorCode, errorMsg);
+    }
+
+    public static ResultData getErrorResult(ImageHostingException e) {
+        return new ResultData(false, e.getCode(), e.getMessage());
     }
 }
