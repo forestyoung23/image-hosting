@@ -1,18 +1,16 @@
 package com.forest.image.service.impl;
 
-import java.util.regex.Pattern;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import cn.hutool.core.util.ObjectUtil;
 import com.forest.image.base.ResultData;
 import com.forest.image.biz.UserBiz;
 import com.forest.image.dto.UserDTO;
 import com.forest.image.service.UserService;
 import com.forest.image.util.ResultDataUtils;
-
-import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.regex.Pattern;
 
 /**
  * 用户服务实现
@@ -30,12 +28,12 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户名规则：4到16位可为大小写字母、数字、符号_
      */
-    private static final Pattern USER_NAME = Pattern.compile("^[\\\\w]{4,16}$");
+    private static final Pattern USER_NAME = Pattern.compile("^[\\w]{4,16}$");
 
     /**
      * 密码：6到14位可为大小写字母、数字、符号_!@#$%^&*?.
      */
-    private static final Pattern PASSWORD = Pattern.compile("^[\\\\w!@#$%^&*?.]{6,14}$");
+    private static final Pattern PASSWORD = Pattern.compile("^[\\w!@#$%^&*?.]{6,14}$");
 
     /**
      * 用户注册
@@ -57,7 +55,7 @@ public class UserServiceImpl implements UserService {
         }
         // 校验用户名和密码格式
         ResultData resultData = checkUserNameAndPasswordPattern(user);
-        if (!resultData.getSucceed()) {
+        if (!resultData.isSucceed()) {
             return resultData;
         }
         // 检验用户名是否已注册
@@ -79,10 +77,10 @@ public class UserServiceImpl implements UserService {
     */
     public ResultData checkUserNameAndPasswordPattern(UserDTO user) {
         if (!USER_NAME.matcher(user.getUserName()).matches()) {
-            return ResultDataUtils.getErrorResult("2001", "请输入4到16位大小写字母、数字、符号_的密码");
+            return ResultDataUtils.getErrorResult("2001", "请输入4到16位大小写字母、数字、符号_的用户名");
         }
-        if (!PASSWORD.matcher(user.getUserName()).matches()) {
-            return ResultDataUtils.getErrorResult("2001", "请输入6到14位可为大小写字母、数字、符号_!@#$%^&*?.");
+        if (!PASSWORD.matcher(user.getPassword()).matches()) {
+            return ResultDataUtils.getErrorResult("2001", "请输入6到14位可为大小写字母、数字、符号_!@#$%^&*?.的密码");
         }
         return ResultDataUtils.getSuccessResult();
     }
