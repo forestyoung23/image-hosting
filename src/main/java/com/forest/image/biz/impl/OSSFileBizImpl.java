@@ -1,18 +1,6 @@
 package com.forest.image.biz.impl;
 
-import java.io.ByteArrayInputStream;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.DeleteObjectsRequest;
-import com.aliyun.oss.model.DeleteObjectsResult;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.forest.image.biz.OSSFileBiz;
 import com.forest.image.dto.FileLinkDTO;
@@ -20,10 +8,15 @@ import com.forest.image.dto.OriginalFileDTO;
 import com.forest.image.mapper.CommonFileMapper;
 import com.forest.image.model.CommonFileModel;
 import com.forest.image.util.FileLinkUtils;
-
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * OSS文件处理BizImpl
@@ -39,8 +32,8 @@ public class OSSFileBizImpl implements OSSFileBiz {
     @Autowired
     private CommonFileMapper mapper;
 
-    @Autowired
-    private OSSClient ossClient;
+    /*@Autowired
+    private OSSClient ossClient;*/
 
     @Value("${oss.bucket_name}")
     private String bucketName;
@@ -110,12 +103,12 @@ public class OSSFileBizImpl implements OSSFileBiz {
      * @date 2020/4/4 6:47 下午
      */
     private void deleteFromOSS(List<String> fileIds) {
-        DeleteObjectsResult result = ossClient.deleteObjects(new DeleteObjectsRequest(bucketName).withKeys(fileIds).withQuiet(true));
-        if (ObjectUtil.isNotEmpty(result.getDeletedObjects())) {
-            for (String fileName : result.getDeletedObjects()) {
-                log.warn("文件{}删除失败", fileName);
-            }
-        }
+//        DeleteObjectsResult result = ossClient.deleteObjects(new DeleteObjectsRequest(bucketName).withKeys(fileIds).withQuiet(true));
+//        if (ObjectUtil.isNotEmpty(result.getDeletedObjects())) {
+//            for (String fileName : result.getDeletedObjects()) {
+//                log.warn("文件{}删除失败", fileName);
+//            }
+//        }
     }
 
     /**
@@ -182,6 +175,6 @@ public class OSSFileBizImpl implements OSSFileBiz {
      * @date 2020/4/2 4:45 下午
      */
     private void upload2OSS(byte[] fileBytes, String fileId) {
-        ossClient.putObject(bucketName, fileId, new ByteArrayInputStream(fileBytes));
+//        ossClient.putObject(bucketName, fileId, new ByteArrayInputStream(fileBytes));
     }
 }

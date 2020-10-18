@@ -5,9 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.util.Random;
 
 /**
  * @author Forest
@@ -22,7 +26,12 @@ public class AuthInterceptor implements HandlerInterceptor {
     private static final int MAX_TIME = 15 * 60;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+        ServletInputStream inputStream = request.getInputStream();
+
+        DataInputStream input = new DataInputStream(inputStream);
+        String s = input.readUTF();
+        System.err.println(s);
         HttpSession session = request.getSession();
         String isLogin = (String) session.getAttribute("isLogin");
         if (ObjectUtil.isNotEmpty(isLogin)) {
@@ -36,5 +45,15 @@ public class AuthInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
                          @Nullable Exception ex) throws Exception {
         System.err.println(request.getSession().getMaxInactiveInterval());
+    }
+
+    public static void main(String[] args) {
+        Random random = new Random(47);
+        System.out.println(random.nextInt(100));
+        System.out.println(random.nextInt(100));
+        System.out.println(random.nextInt(100));
+        System.out.println(random.nextInt(100));
+        System.out.println(random.nextInt(100));
+        System.out.println(random.nextInt(100));
     }
 }

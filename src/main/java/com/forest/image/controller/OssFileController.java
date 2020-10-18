@@ -1,16 +1,17 @@
 package com.forest.image.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.forest.image.base.ResultData;
+import com.forest.image.dto.FileLinkDTO;
+import com.forest.image.service.OSSFileService;
+import com.forest.image.util.ResultDataUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.forest.image.base.ResultData;
-import com.forest.image.service.OSSFileService;
-import com.forest.image.util.ResultDataUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 文件服务前端控制器
@@ -18,6 +19,7 @@ import com.forest.image.util.ResultDataUtils;
  * @author Forest
  * @date 2020年03月21日 04:33
  */
+@Api("文件接口")
 @RestController
 @RequestMapping("/ossfile")
 public class OssFileController {
@@ -32,8 +34,9 @@ public class OssFileController {
      * @author Forest
      * @date 2020/3/21 4:51 上午
      */
+    @ApiOperation("文件上传")
     @PostMapping("/upload")
-    public ResultData upload(HttpServletRequest request, @RequestParam MultipartFile file) {
+    public ResultData<FileLinkDTO> upload(HttpServletRequest request, @RequestParam MultipartFile file) {
         return ResultDataUtils.getSuccessResult(ossFileService.upload(file, request.getRemoteAddr()));
     }
 

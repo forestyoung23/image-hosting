@@ -1,8 +1,6 @@
 package com.forest.image.config;
 
-import java.lang.reflect.Field;
-import java.util.*;
-
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +9,6 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import io.swagger.models.auth.In;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,6 +17,9 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * @author dongyang
@@ -49,7 +48,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
             .host(swaggerProperties.getTryHost())
 
             // 选择哪些接口作为swagger的doc发布
-            .select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build()
+            .select().apis(RequestHandlerSelectors.basePackage("com.forest.image.controller")).paths(PathSelectors.any()).build()
 
             // 支持的通讯协议集合
             .protocols(newHashSet("https", "http"))
