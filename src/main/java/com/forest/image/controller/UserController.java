@@ -83,6 +83,6 @@ public class UserController {
 
     @PostMapping("test")
     public String test(@RequestParam String id) {
-        return id;
+        throw new RuntimeException();
     }
 }
