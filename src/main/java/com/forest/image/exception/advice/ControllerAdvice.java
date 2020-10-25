@@ -1,5 +1,6 @@
 package com.forest.image.exception.advice;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.forest.image.base.ResultData;
 import com.forest.image.exception.ImageHostingException;
 import com.forest.image.util.MailUtils;
@@ -28,15 +29,9 @@ public class ControllerAdvice {
             return ResultDataUtils.getErrorResult((ImageHostingException) e);
         }
         // 异步发送邮件
-        new Thread(new SendMail()).start();
-        return ResultDataUtils.getErrorResult("500", "系统异常");
-    }
-
-    public class SendMail implements Runnable {
-
-        @Override
-        public void run() {
+        ThreadUtil.execute(() -> {
             mailUtils.sendMail();
-        }
+        });
+        return ResultDataUtils.getErrorResult("500", "系统异常");
     }
 }
