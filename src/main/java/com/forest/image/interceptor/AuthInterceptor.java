@@ -5,11 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Random;
 
@@ -27,11 +25,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        ServletInputStream inputStream = request.getInputStream();
-
-        DataInputStream input = new DataInputStream(inputStream);
-        String s = input.readUTF();
-        System.err.println(s);
         HttpSession session = request.getSession();
         String isLogin = (String) session.getAttribute("isLogin");
         if (ObjectUtil.isNotEmpty(isLogin)) {
