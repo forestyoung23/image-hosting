@@ -2,6 +2,11 @@ package com.forest.image.exception;
 
 import lombok.Data;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 公共异常类
  *
@@ -35,5 +40,15 @@ public class ImageHostingException extends RuntimeException {
         super(throwable);
         this.code = code;
         this.message = message;
+    }
+
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        List<String> list = new ArrayList<>(Arrays.asList("1", "2", "3"));
+        for (String o : list) {
+            if ("2" == o) {
+                list.remove(o);
+            }
+        }
+        System.out.println(list);
     }
 }

@@ -1,5 +1,6 @@
 package com.forest.image.dto;
 
+import com.google.common.hash.BloomFilter;
 import lombok.Data;
 
 /**
@@ -19,4 +20,8 @@ public class OSSFileDTO {
      * 文件字节数组
      */
     private byte[] fileBytes;
+
+    public static void main(String[] args) {
+        BloomFilter
+    }
 }

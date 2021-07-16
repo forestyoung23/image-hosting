@@ -2,12 +2,10 @@ package com.forest.image.config;
 
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSClientBuilder;
-import com.forest.image.interceptor.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -44,8 +42,8 @@ public class OSSConfig implements WebMvcConfigurer {
      * @author Forest
      * @date 2020/5/17 4:41 上午
      */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor()).excludePathPatterns("/user/login");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new AuthInterceptor()).excludePathPatterns("/user/login");
+//    }
 }
